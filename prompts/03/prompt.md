@@ -1,0 +1,1 @@
+corrija o grafico em 2_arquitetura_diagrama.md, não esta sendo renderizado corretamente por erro de sintax
