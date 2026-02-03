@@ -6,6 +6,14 @@
 ## 📋 Visão Geral
 Este projeto é um sistema SaaS multi-tenant projetado para gerenciar oficinas mecânicas. A arquitetura é baseada em **Microserviços**, utilizando um **Monorepositório** em **TypeScript** para garantir tipagem forte e compartilhamento eficiente de código entre frontend e backend.
 
+### Prompts
+
+Em [./prompts](./prompts), os prompts estão em ordem de execucão junto com seus resultados.
+
+### Documentações
+
+Cada serviço terá sua documentção em `.md` localizado em `[service]/docs`, 
+
 ## 🛠 Tecnologias Utilizadas
 
 ### Core & Linguagem
@@ -67,3 +75,20 @@ A estrutura é organizada para suportar múltiplos aplicativos e bibliotecas com
 ├── package.json
 ├── nest-cli.json
 └── tsconfig.base.json
+````
+
+### Documentações
+
+* apps
+    * web-portal
+        * [docs](./autofix-monorepo/apps/web-portal/docs/)
+    * api-gateway
+        * [docs](./autofix-monorepo/apps/api-gateway/docs/)
+    * svc-auth
+        * [docs](./autofix-monorepo/apps/svc-auth/docs/)
+    * svc-work-order
+        * [docs](./autofix-monorepo/apps/svc-work-order/docs/)
+    * svc-inventory
+        * [docs](./autofix-monorepo/apps/svc-inventory/docs/)
+    * svc-notification
+        * [docs](./autofix-monorepo/apps/svc-notification/docs/)
