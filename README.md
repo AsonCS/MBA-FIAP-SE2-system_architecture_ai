@@ -1,3 +1,7 @@
+# [Repo MBA-FIAP-SE2-system_architecture_ai Url](https://github.com/AsonCS/MBA-FIAP-SE2-system_architecture_ai)
+
+https://github.com/AsonCS/MBA-FIAP-SE2-system_architecture_ai
+
 # AutoFix SaaS - Sistema de Gestão para Oficinas Mecânicas
 
 ![AutoFix Status](https://img.shields.io/badge/status-em_desenvolvimento-orange?style=for-the-badge)
@@ -81,14 +85,14 @@ A estrutura é organizada para suportar múltiplos aplicativos e bibliotecas com
 
 * apps
     * web-portal
-        * [docs](./autofix-monorepo/apps/web-portal/docs/)
+        * [docs](https://github.com/AsonCS/MBA-FIAP-SE2-system_architecture_ai/tree/main/autofix-monorepo/apps/web-portal/docs/)
     * api-gateway
-        * [docs](./autofix-monorepo/apps/api-gateway/docs/)
+        * [docs](https://github.com/AsonCS/MBA-FIAP-SE2-system_architecture_ai/tree/main/autofix-monorepo/apps/api-gateway/docs/)
     * svc-auth
-        * [docs](./autofix-monorepo/apps/svc-auth/docs/)
+        * [docs](https://github.com/AsonCS/MBA-FIAP-SE2-system_architecture_ai/tree/main/autofix-monorepo/apps/svc-auth/docs/)
     * svc-work-order
-        * [docs](./autofix-monorepo/apps/svc-work-order/docs/)
+        * [docs](https://github.com/AsonCS/MBA-FIAP-SE2-system_architecture_ai/tree/main/autofix-monorepo/apps/svc-work-order/docs/)
     * svc-inventory
-        * [docs](./autofix-monorepo/apps/svc-inventory/docs/)
+        * [docs](https://github.com/AsonCS/MBA-FIAP-SE2-system_architecture_ai/tree/main/autofix-monorepo/apps/svc-inventory/docs/)
     * svc-notification
-        * [docs](./autofix-monorepo/apps/svc-notification/docs/)
+        * [docs](https://github.com/AsonCS/MBA-FIAP-SE2-system_architecture_ai/tree/main/autofix-monorepo/apps/svc-notification/docs/)
