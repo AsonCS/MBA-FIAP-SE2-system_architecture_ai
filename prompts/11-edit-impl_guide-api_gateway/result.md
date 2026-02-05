@@ -7,11 +7,6 @@ Este guia descreve o passo a passo para a implementação do API Gateway utiliza
 - NestJS CLI (`npm i -g @nestjs/cli`)
 - Acesso ao monorepo (pasta `autofix-monorepo`)
 
-## Regras
-- Execute cada passo individualmente
-- Indique o próximo passo
-- Não avance para o próximo passo sem minha autorização
-
 ---
 
 ## Passo 1: Inicialização e Configuração (Swagger)
