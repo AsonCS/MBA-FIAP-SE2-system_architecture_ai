@@ -1,5 +1,5 @@
 # Development Dockerfile for Auth Service
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -20,3 +20,4 @@ EXPOSE 3001
 
 # Start in development mode with hot reload
 CMD ["npm", "run", "start:dev"]
+#CMD ["tail", "-f", "/dev/null"]

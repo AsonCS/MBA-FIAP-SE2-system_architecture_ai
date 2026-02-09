@@ -20,6 +20,8 @@ ALTER DATABASE autofix SET search_path TO public, auth, inventory, work_order, n
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
+CREATE DATABASE auth_db;
+
 -- Output confirmation
 DO $$
 BEGIN

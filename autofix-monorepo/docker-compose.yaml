@@ -111,9 +111,9 @@ services:
       - autofix-network
     depends_on:
       - svc-auth
-      - svc-inventory
-      - svc-work-order
-      - svc-notification
+      #- svc-inventory
+      #- svc-work-order
+      #- svc-notification
     command: npm run start:dev
 
   # Auth Service
@@ -155,7 +155,7 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-    command: npm run start:dev
+    #command: npm run start:dev
 
   # Inventory Service
   svc-inventory:

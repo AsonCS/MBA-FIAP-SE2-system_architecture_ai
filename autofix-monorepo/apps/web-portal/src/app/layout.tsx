@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../design-system/tokens.css";
 import "./globals.css";
+import { AuthProvider } from "../presentation/contexts/AuthContext";
 
 export const metadata: Metadata = {
     title: "AutoFix - Sistema de Gestão de Oficina",
@@ -26,7 +27,9 @@ export default function RootLayout({
                     rel="stylesheet"
                 />
             </head>
-            <body>{children}</body>
+            <body>
+                <AuthProvider>{children}</AuthProvider>
+            </body>
         </html>
     );
 }

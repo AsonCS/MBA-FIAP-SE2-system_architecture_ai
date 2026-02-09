@@ -47,17 +47,65 @@ export class HttpClient {
             }
         );
 
-        // Response interceptor - Handle errors
+        // Response interceptor - Handle errors and auto-refresh
         this.axiosInstance.interceptors.response.use(
             (response) => response,
             async (error: AxiosError) => {
-                if (error.response?.status === 401) {
-                    // Handle unauthorized - clear token and redirect to login
-                    this.clearAuthToken();
-                    if (typeof window !== 'undefined') {
-                        window.location.href = '/login';
+                const originalRequest = error.config as any;
+
+                // Se for erro 401 e não for uma tentativa de refresh
+                if (
+                    error.response?.status === 401 &&
+                    !originalRequest._retry &&
+                    !originalRequest.url?.includes('/auth/refresh') &&
+                    !originalRequest.url?.includes('/auth/login')
+                ) {
+                    originalRequest._retry = true;
+
+                    try {
+                        // Tentar renovar o token
+                        const refreshToken = this.getRefreshToken();
+
+                        if (!refreshToken) {
+                            // Sem refresh token, redirecionar para login
+                            this.clearAuthToken();
+                            if (typeof window !== 'undefined') {
+                                window.location.href = '/login';
+                            }
+                            return Promise.reject(this.normalizeError(error));
+                        }
+
+                        // Chamar endpoint de refresh
+                        const response = await this.axiosInstance.post('/auth/refresh', {
+                            refreshToken,
+                        });
+
+                        const { accessToken, refreshToken: newRefreshToken } = response.data;
+
+                        // Salvar novos tokens
+                        this.saveAuthToken(accessToken);
+                        this.saveRefreshToken(newRefreshToken);
+
+                        // Atualizar header da requisição original
+                        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+
+                        // Retentar requisição original
+                        return this.axiosInstance(originalRequest);
+                    } catch (refreshError) {
+                        // Refresh falhou, limpar tokens e redirecionar
+                        this.clearAuthToken();
+                        if (typeof window !== 'undefined') {
+                            window.location.href = '/login';
+                        }
+                        return Promise.reject(this.normalizeError(error));
                     }
                 }
+
+                // Para outros erros 401 (login, refresh), apenas rejeitar
+                if (error.response?.status === 401) {
+                    this.clearAuthToken();
+                }
+
                 return Promise.reject(this.normalizeError(error));
             }
         );
@@ -74,11 +122,41 @@ export class HttpClient {
     }
 
     /**
+     * Get refresh token from storage
+     */
+    private getRefreshToken(): string | null {
+        if (typeof window === 'undefined') {
+            return null;
+        }
+        return localStorage.getItem('refresh_token');
+    }
+
+    /**
+     * Save authentication token
+     */
+    private saveAuthToken(token: string): void {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('auth_token', token);
+        }
+    }
+
+    /**
+     * Save refresh token
+     */
+    private saveRefreshToken(token: string): void {
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('refresh_token', token);
+        }
+    }
+
+    /**
      * Clear authentication token
      */
     private clearAuthToken(): void {
         if (typeof window !== 'undefined') {
             localStorage.removeItem('auth_token');
+            localStorage.removeItem('refresh_token');
+            localStorage.removeItem('user_data');
         }
     }
 
