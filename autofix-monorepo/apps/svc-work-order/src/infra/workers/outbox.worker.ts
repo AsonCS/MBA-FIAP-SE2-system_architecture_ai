@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { IOutboxRepository, IEventPublisher } from '../../../core/ports';
-import { DomainEvent } from '../../../core/domain/events';
+import { DomainEvent } from '../../core/domain/events';
+import { IOutboxRepository, IEventPublisher } from '../../core/ports';
 
 /**
  * OutboxWorker

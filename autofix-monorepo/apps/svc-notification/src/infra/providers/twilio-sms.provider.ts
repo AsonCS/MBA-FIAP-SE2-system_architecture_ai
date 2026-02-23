@@ -11,12 +11,12 @@ export class TwilioSmsProvider implements ISmsGateway {
         authToken: string = process.env.TWILIO_AUTH_TOKEN || '',
         fromNumber: string = process.env.TWILIO_FROM_NUMBER || '',
     ) {
-        if (!accountSid || !authToken || !fromNumber) {
-            throw new Error('Twilio credentials are required');
-        }
+        // if (!accountSid || !authToken || !fromNumber) {
+        //     throw new Error('Twilio credentials are required');
+        // }
 
-        this.client = new Twilio(accountSid, authToken);
-        this.fromNumber = new PhoneNumber(fromNumber);
+        // this.client = new Twilio(accountSid, authToken);
+        // this.fromNumber = new PhoneNumber(fromNumber);
     }
 
     async send(to: PhoneNumber, message: string): Promise<string> {

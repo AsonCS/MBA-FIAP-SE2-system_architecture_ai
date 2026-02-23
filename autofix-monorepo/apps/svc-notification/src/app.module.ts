@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { NotificationModule } from './notification.module';
 import { NotificationEntity, MessageTemplateEntity } from './infra/database/entities';
+import { ApiModule } from './infra/api/api.module';
 
 @Module({
     imports: [
@@ -26,6 +27,7 @@ import { NotificationEntity, MessageTemplateEntity } from './infra/database/enti
             inject: [ConfigService],
         }),
         NotificationModule,
+        ApiModule,
     ],
 })
 export class AppModule { }

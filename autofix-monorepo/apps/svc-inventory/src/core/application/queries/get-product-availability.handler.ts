@@ -1,3 +1,4 @@
+import { Injectable, Inject } from '@nestjs/common';
 import { IProductRepository } from '../../ports/product.repository.interface';
 import { ICacheService } from '../../ports/cache.service.interface';
 import { GetProductAvailabilityQuery } from './get-product-availability.query';
@@ -24,9 +25,12 @@ export interface ProductAvailabilityDTO {
  * GetProductAvailabilityHandler
  * Handles product availability queries with cache-aside pattern
  */
+@Injectable()
 export class GetProductAvailabilityHandler {
     constructor(
+        @Inject('IProductRepository')
         private readonly productRepository: IProductRepository,
+        @Inject('ICacheService')
         private readonly cacheService: ICacheService,
     ) { }
 

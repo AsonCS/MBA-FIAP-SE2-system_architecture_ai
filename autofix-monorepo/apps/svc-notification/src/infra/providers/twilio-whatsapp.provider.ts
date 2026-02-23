@@ -11,13 +11,13 @@ export class TwilioWhatsAppProvider implements IWhatsAppGateway {
         authToken: string = process.env.TWILIO_AUTH_TOKEN || '',
         fromNumber: string = process.env.TWILIO_WHATSAPP_NUMBER || '',
     ) {
-        if (!accountSid || !authToken || !fromNumber) {
-            throw new Error('Twilio credentials are required');
-        }
+        // if (!accountSid || !authToken || !fromNumber) {
+        //     throw new Error('Twilio credentials are required');
+        // }
 
-        this.client = new Twilio(accountSid, authToken);
-        // WhatsApp numbers must be prefixed with 'whatsapp:'
-        this.fromNumber = new PhoneNumber(fromNumber);
+        // this.client = new Twilio(accountSid, authToken);
+        // // WhatsApp numbers must be prefixed with 'whatsapp:'
+        // this.fromNumber = new PhoneNumber(fromNumber);
     }
 
     async send(to: PhoneNumber, message: string, templateName?: string): Promise<string> {

@@ -1,3 +1,4 @@
+import { Injectable, Inject } from '@nestjs/common';
 import { IMovementRepository } from '../../ports/movement.repository.interface';
 import { GetStockLedgerQuery } from './get-stock-ledger.query';
 import { StockMovement } from '../../domain/entities/stock-movement.entity';
@@ -24,8 +25,12 @@ export interface StockMovementDTO {
  * GetStockLedgerHandler
  * Handles stock ledger (Kardex) queries
  */
+@Injectable()
 export class GetStockLedgerHandler {
-    constructor(private readonly movementRepository: IMovementRepository) { }
+    constructor(
+        @Inject('IMovementRepository')
+        private readonly movementRepository: IMovementRepository,
+    ) { }
 
     async execute(query: GetStockLedgerQuery): Promise<StockMovementDTO[]> {
         const movements = await this.movementRepository.findBySku(

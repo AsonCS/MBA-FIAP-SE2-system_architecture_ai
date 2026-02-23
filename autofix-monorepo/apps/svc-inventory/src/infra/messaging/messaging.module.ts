@@ -1,14 +1,15 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { KafkaEventPublisher } from './kafka-event-publisher.service';
 import { WorkOrderApprovedHandler } from './handlers/work-order-approved.handler';
 import { WorkOrderCompletedHandler } from './handlers/work-order-completed.handler';
-import { IEventPublisher } from '../../core/ports/event.interface';
+import { ApplicationModule } from '../../core/application/application.module';
 
 /**
  * MessagingModule
  * Configures Kafka event publisher and consumers
  */
 @Module({
+    imports: [forwardRef(() => ApplicationModule)],
     providers: [
         {
             provide: 'IEventPublisher',

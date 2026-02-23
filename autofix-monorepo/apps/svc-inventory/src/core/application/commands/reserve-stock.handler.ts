@@ -1,3 +1,4 @@
+import { Injectable, Inject } from '@nestjs/common';
 import { IProductRepository } from '../../ports/product.repository.interface';
 import { IEventPublisher } from '../../ports/event.interface';
 import { ICacheService } from '../../ports/cache.service.interface';
@@ -10,12 +11,16 @@ import { ProductNotFoundError, OptimisticLockError } from '../../domain/exceptio
  * ReserveStockHandler
  * Handles stock reservation with optimistic locking
  */
+@Injectable()
 export class ReserveStockHandler {
     private readonly MAX_RETRIES = 3;
 
     constructor(
+        @Inject('IProductRepository')
         private readonly productRepository: IProductRepository,
+        @Inject('IEventPublisher')
         private readonly eventPublisher: IEventPublisher,
+        @Inject('ICacheService')
         private readonly cacheService: ICacheService,
     ) { }
 

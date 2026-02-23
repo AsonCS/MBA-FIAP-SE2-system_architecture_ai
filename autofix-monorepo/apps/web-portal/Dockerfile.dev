@@ -19,5 +19,5 @@ COPY . .
 EXPOSE 3000
 
 # Start in development mode with hot reload
-# CMD ["npm", "run", "dev"]
-CMD ["tail", "-f", "/dev/null"]
+CMD ["npm", "run", "dev"]
+# CMD ["tail", "-f", "/dev/null"]

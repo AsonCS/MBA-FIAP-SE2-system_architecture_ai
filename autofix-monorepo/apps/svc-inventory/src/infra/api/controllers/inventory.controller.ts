@@ -9,6 +9,7 @@ import {
     HttpStatus,
     HttpException,
     Logger,
+    Inject,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
 import { AdjustStockDto, ReserveStockDto, ConsumeStockDto, CreateProductDto } from '../dtos/inventory.dto';
@@ -48,6 +49,7 @@ export class InventoryController {
         private readonly consumeStockHandler: ConsumeStockHandler,
         private readonly getProductAvailabilityHandler: GetProductAvailabilityHandler,
         private readonly getStockLedgerHandler: GetStockLedgerHandler,
+        @Inject('IProductRepository')
         private readonly productRepository: IProductRepository,
     ) { }
 

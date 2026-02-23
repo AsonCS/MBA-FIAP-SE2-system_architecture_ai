@@ -1,3 +1,4 @@
+import { Injectable, Inject } from '@nestjs/common';
 import { IProductRepository } from '../../ports/product.repository.interface';
 import { IMovementRepository } from '../../ports/movement.repository.interface';
 import { IEventPublisher } from '../../ports/event.interface';
@@ -12,13 +13,18 @@ import { StockMovement, MovementType, MovementReason } from '../../domain/entiti
  * ConsumeStockHandler
  * Handles stock consumption with movement logging
  */
+@Injectable()
 export class ConsumeStockHandler {
     private readonly MAX_RETRIES = 3;
 
     constructor(
+        @Inject('IProductRepository')
         private readonly productRepository: IProductRepository,
+        @Inject('IMovementRepository')
         private readonly movementRepository: IMovementRepository,
+        @Inject('IEventPublisher')
         private readonly eventPublisher: IEventPublisher,
+        @Inject('ICacheService')
         private readonly cacheService: ICacheService,
     ) { }
 
