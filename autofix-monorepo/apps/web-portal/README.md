@@ -1,3 +1,5 @@
+![AutoFix - Web Portal screen](../../../autofix-web_portal.png "Web Portal screen")
+
 # AutoFix Web Portal
 
 Portal web do sistema AutoFix desenvolvido com Next.js, TypeScript e Clean Architecture.
