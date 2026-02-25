@@ -1,23 +1,11 @@
-# Development Dockerfile for Web Portal
-FROM node:18-alpine
+FROM node:24
 
-WORKDIR /app
+USER node
 
-# Install dependencies for development
-RUN apk add --no-cache git
+WORKDIR /home/node/app
 
-# Copy package files
-COPY package*.json ./
-
-# Install all dependencies (including dev dependencies)
-RUN npm install
-
-# Copy source code
 COPY . .
 
-# Expose port
-EXPOSE 3000
+EXPOSE 3005
 
-# Start in development mode with hot reload
-CMD ["npm", "run", "dev"]
-# CMD ["tail", "-f", "/dev/null"]
+CMD ["tail", "-f", "/dev/null"]

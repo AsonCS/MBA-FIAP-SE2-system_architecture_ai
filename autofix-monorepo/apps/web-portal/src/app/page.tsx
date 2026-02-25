@@ -1,5 +1,6 @@
 import { Button } from '@/design-system/atoms';
 import styles from './page.module.css';
+import Link from 'next/link';
 
 export default function Home() {
     return (
@@ -12,12 +13,16 @@ export default function Home() {
                     Sistema completo de gestão para oficinas mecânicas
                 </p>
                 <div className={styles.actions}>
-                    <Button size="lg" variant="primary">
-                        Começar Agora
-                    </Button>
-                    <Button size="lg" variant="outline">
-                        Saiba Mais
-                    </Button>
+                    <Link href="/login">
+                        <Button size="lg" variant="primary">
+                            Começar Agora
+                        </Button>
+                    </Link>
+                    <Link href="/about">
+                        <Button size="lg" variant="outline">
+                            Saiba Mais
+                        </Button>
+                    </Link>
                 </div>
             </div>
 

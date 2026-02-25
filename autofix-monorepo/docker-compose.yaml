@@ -14,7 +14,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./docker/postgres_data:/var/lib/postgresql/data
+      - ./.docker/postgres_data:/var/lib/postgresql/data
       - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
     networks:
       - autofix-network
@@ -31,7 +31,7 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - ./docker/redis_data:/data
+      - ./.docker/redis_data:/data
     networks:
       - autofix-network
     healthcheck:
@@ -49,6 +49,9 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - "2181:2181"
+    volumes:
+      - ./.docker/zookeeper_data:/var/lib/zookeeper/data
+      - ./.docker/zookeeper_log:/var/lib/zookeeper/log
     networks:
       - autofix-network
     healthcheck:
@@ -66,6 +69,9 @@ services:
     ports:
       - "9092:9092"
       - "29092:29092"
+    volumes:
+      - ./.docker/kafka_data:/var/lib/kafka/data
+      - ./.docker/kafka_log:/var/lib/kafka/log
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -91,6 +97,7 @@ services:
     build:
       context: ./apps/api-gateway
       dockerfile: Dockerfile.dev
+    command: [ "sh", "./.docker/start.sh" ]
     container_name: autofix-api-gateway
     ports:
       - "3000:3000"
@@ -103,20 +110,21 @@ services:
       WORK_ORDER_SERVICE_URL: http://svc-work-order:3003
       NOTIFICATION_SERVICE_URL: http://svc-notification:3004
     volumes:
-      - ./apps/api-gateway:/app
+      - ./apps/api-gateway:/home/node/app
     networks:
       - autofix-network
     depends_on:
       - svc-auth
-      #- svc-inventory
-      #- svc-work-order
-      #- svc-notification
+      - svc-inventory
+      - svc-work-order
+      - svc-notification
 
-      # Auth Service
+  # Auth Service
   svc-auth:
     build:
       context: ./apps/svc-auth
       dockerfile: Dockerfile.dev
+    command: [ "sh", "./.docker/start.sh" ]
     container_name: autofix-svc-auth
     ports:
       - "3001:3001"
@@ -140,7 +148,7 @@ services:
       KAFKA_CLIENT_ID: svc-auth
       KAFKA_GROUP_ID: svc-auth-group
     volumes:
-      - ./apps/svc-auth:/app
+      - ./apps/svc-auth:/home/node/app
     networks:
       - autofix-network
     depends_on:
@@ -150,11 +158,13 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-    # Inventory Service
+
+  # Inventory Service
   svc-inventory:
     build:
       context: ./apps/svc-inventory
       dockerfile: Dockerfile.dev
+    command: [ "sh", "./.docker/start.sh" ]
     container_name: autofix-svc-inventory
     ports:
       - "3002:3002"
@@ -175,7 +185,7 @@ services:
       KAFKA_CLIENT_ID: svc-inventory
       KAFKA_GROUP_ID: svc-inventory-group
     volumes:
-      - ./apps/svc-inventory:/app
+      - ./apps/svc-inventory:/home/node/app
     networks:
       - autofix-network
     depends_on:
@@ -185,11 +195,13 @@ services:
         condition: service_healthy
       kafka:
         condition: service_healthy
-    # Work Order Service
+
+  # Work Order Service
   svc-work-order:
     build:
       context: ./apps/svc-work-order
       dockerfile: Dockerfile.dev
+    command: [ "sh", "./.docker/start.sh" ]
     container_name: autofix-svc-work-order
     ports:
       - "3003:3003"
@@ -209,7 +221,7 @@ services:
       # External Services
       INVENTORY_SERVICE_URL: http://svc-inventory:3002
     volumes:
-      - ./apps/svc-work-order:/app
+      - ./apps/svc-work-order:/home/node/app
     networks:
       - autofix-network
     depends_on:
@@ -225,6 +237,7 @@ services:
     build:
       context: ./apps/svc-notification
       dockerfile: Dockerfile.dev
+    command: [ "sh", "./.docker/start.sh" ]
     container_name: autofix-svc-notification
     ports:
       - "3004:3004"
@@ -253,7 +266,7 @@ services:
       # Push (Firebase) - Optional for dev
       FIREBASE_PROJECT_ID: autofix-dev
     volumes:
-      - ./apps/svc-notification:/app
+      - ./apps/svc-notification:/home/node/app
     networks:
       - autofix-network
     depends_on:
@@ -267,6 +280,7 @@ services:
     build:
       context: ./apps/web-portal
       dockerfile: Dockerfile.dev
+    command: [ "sh", "./.docker/start.sh" ]
     container_name: autofix-web-portal
     ports:
       - "3005:3000"
@@ -275,7 +289,7 @@ services:
       NEXT_PUBLIC_API_URL: http://localhost:3000
       NEXT_PUBLIC_WS_URL: ws://localhost:3000
     volumes:
-      - ./apps/web-portal:/app
+      - ./apps/web-portal:/home/node/app
     networks:
       - autofix-network
     depends_on:

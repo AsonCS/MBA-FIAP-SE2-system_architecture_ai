@@ -1,23 +1,11 @@
-# Development Dockerfile for Notification Service
-FROM node:18-alpine
+FROM node:20.5.1-slim
 
-WORKDIR /app
+USER node
 
-# Install dependencies for development
-# RUN apk add --no-cache git
+WORKDIR /home/node/app
 
-# Copy package files
-# COPY package*.json ./
-
-# Copy source code
 COPY . .
 
-# Install all dependencies (including dev dependencies)
-RUN npm install
-
-# Expose port
 EXPOSE 3004
 
-# Start in development mode with hot reload
-CMD ["npm", "run", "start:dev"]
-# CMD ["tail", "-f" , "/dev/null"]
+CMD ["tail", "-f", "/dev/null"]
