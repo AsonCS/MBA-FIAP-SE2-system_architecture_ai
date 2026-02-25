@@ -133,6 +133,16 @@ export const LoginForm: React.FC = () => {
                     Esqueceu sua senha?
                 </a>
             </div>
+
+            <div className={styles.footer}>
+                <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary, #666)' }}>
+                    Não tem uma conta?
+                </span>
+                {' '}
+                <a href="/register" className={styles.forgotLink}>
+                    Cadastre-se
+                </a>
+            </div>
         </form>
     );
 };

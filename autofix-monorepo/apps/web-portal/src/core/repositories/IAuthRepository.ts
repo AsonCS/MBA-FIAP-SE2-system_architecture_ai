@@ -3,12 +3,25 @@ import { AuthToken } from '../domain/value-objects/AuthToken';
 
 /**
  * Login Result
- * 
+ *
  * Resultado da operação de login contendo tokens e dados do usuário.
  */
 export interface LoginResult {
     tokens: AuthToken;
     user: UserAggregate;
+}
+
+/**
+ * Register Input
+ *
+ * Dados necessários para cadastro de uma nova oficina.
+ */
+export interface RegisterInput {
+    tenantName: string;
+    cnpj: string;
+    ownerName: string;
+    ownerEmail: string;
+    ownerPassword: string;
 }
 
 /**
@@ -26,6 +39,13 @@ export interface IAuthRepository {
      * @throws Error se as credenciais forem inválidas
      */
     login(email: string, password: string): Promise<LoginResult>;
+
+    /**
+     * Registra um novo usuário
+     * @param input - Dados do novo usuário
+     * @throws Error se o email já estiver cadastrado ou os dados forem inválidos
+     */
+    register(input: RegisterInput): Promise<void>;
 
     /**
      * Realiza logout do usuário, revogando os tokens

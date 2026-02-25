@@ -1,4 +1,4 @@
-import { IAuthRepository, LoginResult } from '../../core/repositories/IAuthRepository';
+import { IAuthRepository, LoginResult, RegisterInput } from '../../core/repositories/IAuthRepository';
 import { AuthToken } from '../../core/domain/value-objects/AuthToken';
 import { UserAggregate } from '../../core/domain/entities/User';
 import { HttpClient } from '../http/HttpClient';
@@ -59,6 +59,31 @@ export class AuthRepository implements IAuthRepository {
             }
 
             throw new Error('Erro ao realizar login. Tente novamente.');
+        }
+    }
+
+    /**
+     * Registra um novo usuário
+     */
+    async register(input: RegisterInput): Promise<void> {
+        try {
+            await this.httpClient.post('/auth/register', {
+                tenantName: input.tenantName,
+                cnpj: input.cnpj,
+                ownerName: input.ownerName,
+                ownerEmail: input.ownerEmail,
+                ownerPassword: input.ownerPassword
+            });
+        } catch (error: any) {
+            if (error.status === 409) {
+                throw new Error('Este email já está cadastrado');
+            }
+
+            if (error.status === 400) {
+                throw new Error('Dados de cadastro inválidos');
+            }
+
+            throw new Error('Erro ao realizar cadastro. Tente novamente.');
         }
     }
 

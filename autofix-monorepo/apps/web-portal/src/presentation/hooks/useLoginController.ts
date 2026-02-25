@@ -32,8 +32,8 @@ export const useLoginController = () => {
     const { login } = useAuth();
 
     const [formState, setFormState] = useState<LoginFormState>({
-        email: '',
-        password: '',
+        email: 'ze@example.com',
+        password: 'password',
     });
 
     const [errors, setErrors] = useState<LoginFormErrors>({});
