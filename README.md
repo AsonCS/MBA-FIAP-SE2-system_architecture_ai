@@ -1,3 +1,5 @@
+![AutoFix - Web Portal screen](./autofix-web_portal.png "Web Portal screen")
+
 # [Repo MBA-FIAP-SE2-system_architecture_ai Url](https://github.com/AsonCS/MBA-FIAP-SE2-system_architecture_ai)
 
 https://github.com/AsonCS/MBA-FIAP-SE2-system_architecture_ai
