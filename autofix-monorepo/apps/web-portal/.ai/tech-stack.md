@@ -20,7 +20,7 @@
 
 ## 4. State & Styling
 * **Global State:** Context API
-* **Styling:** Vanilla CSS or CSS Modules (Flexible/Premium Aestethics)
+* **Styling:** Material UI (MUI), Vanilla CSS or CSS Modules (Flexible/Premium Aestethics)
 * **Design System:** Internal library based on Atomic Design principles
 
 ## 5. Security
