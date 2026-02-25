@@ -12,18 +12,18 @@
 }
 
 .title {
-    font-size: 1.875rem;
-    font-weight: 700;
-    color: var(--color-text-primary, #1a1a1a);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
     margin: 0 0 0.5rem 0;
-    line-height: 1.2;
+    line-height: var(--line-height-tight);
 }
 
 .subtitle {
     font-size: 0.9375rem;
-    color: var(--color-text-secondary, #666);
+    color: var(--color-text-secondary);
     margin: 0;
-    line-height: 1.5;
+    line-height: var(--line-height-normal);
 }
 
 .errorAlert {
@@ -31,12 +31,12 @@
     align-items: center;
     gap: 0.75rem;
     padding: 0.875rem 1rem;
-    background: linear-gradient(135deg, #fee 0%, #fdd 100%);
-    border: 1px solid #fcc;
-    border-radius: 8px;
-    color: #c33;
-    font-size: 0.875rem;
-    line-height: 1.5;
+    background: var(--color-danger-light);
+    border: 1px solid var(--color-danger);
+    border-radius: var(--radius-md);
+    color: var(--color-danger);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
     animation: slideIn 0.3s ease-out;
 }
 
@@ -69,14 +69,14 @@
 }
 
 .sectionLabel {
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--color-text-secondary, #888);
+    color: var(--color-text-secondary);
     margin: 0;
     padding-bottom: 0.25rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    border-bottom: 1px solid var(--color-divider);
 }
 
 .passwordField {
@@ -88,21 +88,21 @@
     border: none;
     padding: 0;
     cursor: pointer;
-    color: var(--color-text-secondary, #666);
-    transition: color 0.2s ease;
+    color: var(--color-text-secondary);
+    transition: color var(--transition-fast);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .togglePassword:hover {
-    color: var(--color-text-primary, #1a1a1a);
+    color: var(--color-text-primary);
 }
 
 .togglePassword:focus {
-    outline: 2px solid var(--color-primary, #0066ff);
+    outline: 2px solid var(--color-primary);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
 }
 
 .footer {
@@ -115,36 +115,36 @@
 }
 
 .loginText {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary, #666);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
 }
 
 .loginLink {
-    font-size: 0.875rem;
-    color: var(--color-primary, #0066ff);
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
     text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease;
+    font-weight: var(--font-weight-medium);
+    transition: color var(--transition-fast);
 }
 
 .loginLink:hover {
-    color: var(--color-primary-dark, #0052cc);
+    color: var(--color-primary-hover);
     text-decoration: underline;
 }
 
 .loginLink:focus {
-    outline: 2px solid var(--color-primary, #0066ff);
+    outline: 2px solid var(--color-primary);
     outline-offset: 4px;
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
 }
 
 /* Responsive */
 @media (max-width: 480px) {
     .title {
-        font-size: 1.5rem;
+        font-size: var(--font-size-2xl);
     }
 
     .subtitle {
-        font-size: 0.875rem;
+        font-size: var(--font-size-sm);
     }
 }

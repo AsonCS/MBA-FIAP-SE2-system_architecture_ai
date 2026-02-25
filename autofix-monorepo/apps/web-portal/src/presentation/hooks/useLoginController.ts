@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -23,7 +21,7 @@ interface LoginFormErrors {
 
 /**
  * Login Controller Hook
- * 
+ *
  * Controller para a página de login seguindo padrão MVVM.
  * Gerencia estado do formulário, validações e orquestração do login.
  */
@@ -32,8 +30,8 @@ export const useLoginController = () => {
     const { login } = useAuth();
 
     const [formState, setFormState] = useState<LoginFormState>({
-        email: 'ze@example.com',
-        password: 'password',
+        email: '',
+        password: '',
     });
 
     const [errors, setErrors] = useState<LoginFormErrors>({});

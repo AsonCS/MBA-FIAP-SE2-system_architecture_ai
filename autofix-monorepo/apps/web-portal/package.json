@@ -11,20 +11,25 @@
         "test:watch": "jest --watch"
     },
     "dependencies": {
+        "@emotion/react": "^11.14.0",
+        "@emotion/styled": "^11.14.1",
+        "@mui/icons-material": "^7.3.8",
+        "@mui/lab": "^7.0.1-beta.22",
+        "@mui/material": "^7.3.8",
+        "axios": "^1.7.9",
         "next": "^15.1.6",
         "react": "^19.0.0",
-        "react-dom": "^19.0.0",
-        "axios": "^1.7.9"
+        "react-dom": "^19.0.0"
     },
     "devDependencies": {
+        "@types/jest": "^29.5.14",
         "@types/node": "^22",
         "@types/react": "^19",
         "@types/react-dom": "^19",
-        "@types/jest": "^29.5.14",
         "eslint": "^9",
         "eslint-config-next": "^15.1.6",
-        "typescript": "^5",
         "jest": "^29.7.0",
-        "ts-jest": "^29.2.5"
+        "ts-jest": "^29.2.5",
+        "typescript": "^5"
     }
 }

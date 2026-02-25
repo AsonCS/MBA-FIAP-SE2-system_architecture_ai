@@ -1,10 +1,18 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+    createContext,
+    useContext,
+    useState,
+    useEffect,
+    useMemo,
+    ReactNode,
+} from 'react';
 import { UserAggregate } from '../../core/domain/entities/User';
 import { LoginUseCase } from '../../core/use-cases/LoginUseCase';
 import { LogoutUseCase } from '../../core/use-cases/LogoutUseCase';
 import { GetCurrentUserUseCase } from '../../core/use-cases/GetCurrentUserUseCase';
+import { RegisterUseCase, RegisterUseCaseInput } from '../../core/use-cases/RegisterUseCase';
 import { AuthRepository } from '../../infra/repositories/AuthRepository';
 import { createHttpClient } from '../../infra/http/HttpClient';
 
@@ -17,6 +25,7 @@ interface AuthContextState {
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
+    register: (input: RegisterUseCaseInput) => Promise<void>;
     refreshUser: () => Promise<void>;
 }
 
@@ -34,28 +43,38 @@ interface AuthProviderProps {
 
 /**
  * Auth Provider Component
- * 
+ *
  * Gerencia o estado global de autenticação da aplicação.
- * Fornece métodos para login, logout e refresh do usuário.
+ * Fornece métodos para login, logout, register e refresh do usuário.
+ *
+ * As dependências de infraestrutura são criadas com useMemo para evitar
+ * recriação em cada render.
  */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<UserAggregate | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Inicializar dependências
-    const httpClient = createHttpClient({
-        baseURL: process.env.NEXT_PUBLIC_AUTH_API_URL || 'http://localhost:3001',
-    });
-    const authRepository = new AuthRepository(httpClient);
-    const loginUseCase = new LoginUseCase(authRepository);
-    const logoutUseCase = new LogoutUseCase(authRepository);
-    const getCurrentUserUseCase = new GetCurrentUserUseCase(authRepository);
+    // Inicializar dependências uma única vez via useMemo
+    const useCases = useMemo(() => {
+        const httpClient = createHttpClient({
+            baseURL: process.env.NEXT_PUBLIC_AUTH_API_URL || 'http://localhost:3001',
+        });
+        const authRepository = new AuthRepository(httpClient);
+
+        return {
+            loginUseCase: new LoginUseCase(authRepository),
+            logoutUseCase: new LogoutUseCase(authRepository),
+            getCurrentUserUseCase: new GetCurrentUserUseCase(authRepository),
+            registerUseCase: new RegisterUseCase(authRepository),
+        };
+    }, []);
 
     /**
      * Carregar usuário ao montar o componente
      */
     useEffect(() => {
         loadUser();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     /**
@@ -64,7 +83,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const loadUser = async () => {
         setIsLoading(true);
         try {
-            const currentUser = await getCurrentUserUseCase.execute();
+            const currentUser = await useCases.getCurrentUserUseCase.execute();
             setUser(currentUser);
         } catch (error) {
             console.error('Erro ao carregar usuário:', error);
@@ -80,7 +99,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const login = async (email: string, password: string) => {
         setIsLoading(true);
         try {
-            const result = await loginUseCase.execute({ email, password });
+            const result = await useCases.loginUseCase.execute({ email, password });
             setUser(result.user);
         } catch (error) {
             setIsLoading(false);
@@ -96,7 +115,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const logout = async () => {
         setIsLoading(true);
         try {
-            await logoutUseCase.execute();
+            await useCases.logoutUseCase.execute();
             setUser(null);
         } catch (error) {
             console.error('Erro ao fazer logout:', error);
@@ -108,11 +127,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     /**
+     * Registra uma nova oficina — delega ao RegisterUseCase
+     */
+    const register = async (input: RegisterUseCaseInput) => {
+        await useCases.registerUseCase.execute(input);
+    };
+
+    /**
      * Atualiza dados do usuário
      */
     const refreshUser = async () => {
         try {
-            const currentUser = await getCurrentUserUseCase.execute();
+            const currentUser = await useCases.getCurrentUserUseCase.execute();
             setUser(currentUser);
         } catch (error) {
             console.error('Erro ao atualizar usuário:', error);
@@ -125,6 +151,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isLoading,
         login,
         logout,
+        register,
         refreshUser,
     };
 

@@ -1,15 +1,26 @@
-import type { Metadata } from "next";
-import "../design-system/tokens.css";
-import "./globals.css";
-import { AuthProvider } from "../presentation/contexts/AuthContext";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import '../design-system/tokens.css';
+import './globals.css';
+import { AuthProvider } from '../presentation/contexts/AuthContext';
+
+/**
+ * Carregamento otimizado da fonte Inter via next/font.
+ * Elimina a dependência do Google Fonts CDN em runtime,
+ * servindo os arquivos localmente para melhor performance e privacidade.
+ */
+const inter = Inter({
+    subsets: ['latin'],
+    display: 'swap',
+    variable: '--font-inter',
+});
 
 export const metadata: Metadata = {
-    title: "AutoFix - Sistema de Gestão de Oficina",
-    description: "Sistema completo para gestão de oficinas mecânicas com controle de ordens de serviço, estoque e clientes",
-    keywords: ["oficina", "mecânica", "gestão", "ordem de serviço", "autofix"],
-    authors: [{ name: "AutoFix Team" }],
-    viewport: "width=device-width, initial-scale=1",
-    robots: "index, follow",
+    title: 'AutoFix - Sistema de Gestão de Oficina',
+    description: 'Sistema completo para gestão de oficinas mecânicas com controle de ordens de serviço, estoque e clientes',
+    keywords: ['oficina', 'mecânica', 'gestão', 'ordem de serviço', 'autofix'],
+    authors: [{ name: 'AutoFix Team' }],
+    robots: 'index, follow',
 };
 
 export default function RootLayout({
@@ -18,15 +29,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="pt-BR">
-            <head>
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-                <link
-                    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-                    rel="stylesheet"
-                />
-            </head>
+        <html lang="pt-BR" className={inter.variable}>
             <body>
                 <AuthProvider>{children}</AuthProvider>
             </body>

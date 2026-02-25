@@ -1,16 +1,22 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Input } from '../../design-system/atoms/Input';
-import { Button } from '../../design-system/atoms/Button';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
+import Alert from '@mui/material/Alert';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { LoadingButton } from '@mui/lab';
 import { useLoginController } from '../hooks/useLoginController';
 import styles from './LoginForm.module.css';
 
 /**
  * Login Form Component
- * 
+ *
  * Formulário de autenticação do usuário.
- * Componente puro que recebe lógica via controller hook.
+ * Usa componentes Material UI (TextField, LoadingButton) para
+ * consistência visual e acessibilidade nativa.
  */
 export const LoginForm: React.FC = () => {
     const { formState, errors, isSubmitting, handleFieldChange, handleSubmit } =
@@ -28,26 +34,13 @@ export const LoginForm: React.FC = () => {
             </div>
 
             {errors.general && (
-                <div className={styles.errorAlert} role="alert">
-                    <svg
-                        width="20"
-                        height="20"
-                        viewBox="0 0 20 20"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                    >
-                        <path
-                            d="M10 0C4.48 0 0 4.48 0 10C0 15.52 4.48 20 10 20C15.52 20 20 15.52 20 10C20 4.48 15.52 0 10 0ZM11 15H9V13H11V15ZM11 11H9V5H11V11Z"
-                            fill="currentColor"
-                        />
-                    </svg>
-                    <span>{errors.general}</span>
-                </div>
+                <Alert severity="error" role="alert">
+                    {errors.general}
+                </Alert>
             )}
 
             <div className={styles.fields}>
-                <Input
+                <TextField
                     label="Email"
                     type="email"
                     id="email"
@@ -57,88 +50,67 @@ export const LoginForm: React.FC = () => {
                     fullWidth
                     value={formState.email}
                     onChange={(e) => handleFieldChange('email', e.target.value)}
-                    error={errors.email}
+                    error={Boolean(errors.email)}
+                    helperText={errors.email}
                     disabled={isSubmitting}
                     placeholder="seu@email.com"
+                    variant="outlined"
                 />
 
-                <div className={styles.passwordField}>
-                    <Input
-                        label="Senha"
-                        type={showPassword ? 'text' : 'password'}
-                        id="password"
-                        name="password"
-                        autoComplete="current-password"
-                        required
-                        fullWidth
-                        value={formState.password}
-                        onChange={(e) => handleFieldChange('password', e.target.value)}
-                        error={errors.password}
-                        disabled={isSubmitting}
-                        placeholder="••••••••"
-                        rightIcon={
-                            <button
-                                type="button"
-                                onClick={() => setShowPassword(!showPassword)}
-                                className={styles.togglePassword}
-                                aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
-                                tabIndex={-1}
-                            >
-                                {showPassword ? (
-                                    <svg
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 20 20"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M10 4C5 4 1.73 7.11 1 10c.73 2.89 4 6 9 6s8.27-3.11 9-6c-.73-2.89-4-6-9-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                                            fill="currentColor"
-                                        />
-                                    </svg>
-                                ) : (
-                                    <svg
-                                        width="20"
-                                        height="20"
-                                        viewBox="0 0 20 20"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            d="M10 6c2.21 0 4 1.79 4 4 0 .73-.2 1.41-.54 2l2.37 2.37C17.07 13.14 18.25 11.67 19 10c-.73-2.89-4-6-9-6-1.18 0-2.3.19-3.32.52L8.54 6.38c.59-.34 1.27-.54 2-.54zM1 2.27l2.28 2.28.46.46C2.51 6.23 1.33 7.7 1 10c.73 2.89 4 6 9 6 1.55 0 3.03-.3 4.38-.84l.42.42L17.73 19 19 17.73 2.27 1 1 2.27zM10 14c-2.21 0-4-1.79-4-4 0-.73.2-1.41.54-2L9.46 11c.59.34 1.27.54 2 .54l2.92 2.92C13.03 13.7 11.55 14 10 14z"
-                                            fill="currentColor"
-                                        />
-                                    </svg>
-                                )}
-                            </button>
-                        }
-                    />
-                </div>
+                <TextField
+                    label="Senha"
+                    type={showPassword ? 'text' : 'password'}
+                    id="password"
+                    name="password"
+                    autoComplete="current-password"
+                    required
+                    fullWidth
+                    value={formState.password}
+                    onChange={(e) => handleFieldChange('password', e.target.value)}
+                    error={Boolean(errors.password)}
+                    helperText={errors.password}
+                    disabled={isSubmitting}
+                    placeholder="••••••••"
+                    variant="outlined"
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                <IconButton
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'}
+                                    edge="end"
+                                    tabIndex={-1}
+                                >
+                                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
             </div>
 
-            <Button
+            <LoadingButton
                 type="submit"
-                variant="primary"
-                size="lg"
+                variant="contained"
+                size="large"
                 fullWidth
                 loading={isSubmitting}
                 disabled={isSubmitting}
+                sx={{ py: 1.5 }}
             >
-                {isSubmitting ? 'Entrando...' : 'Entrar'}
-            </Button>
+                Entrar
+            </LoadingButton>
 
-            <div className={styles.footer}>
+            <div className={styles.forgotFooter}>
                 <a href="/forgot-password" className={styles.forgotLink}>
                     Esqueceu sua senha?
                 </a>
             </div>
 
-            <div className={styles.footer}>
-                <span style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary, #666)' }}>
+            <div className={styles.registerFooter}>
+                <span className={styles.footerText}>
                     Não tem uma conta?
                 </span>
-                {' '}
                 <a href="/register" className={styles.forgotLink}>
                     Cadastre-se
                 </a>
